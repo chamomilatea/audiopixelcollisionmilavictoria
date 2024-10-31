@@ -41,17 +41,14 @@ function startAudio() {
 }
 
 function draw() {
-  background(0, 50);
+  background(0, 30);
   
   // Audio level from mic
   var vol = mic.getLevel();
   console.log(vol);
   circleSize = map(vol, 0, 1, 25, 200);
   
-  // Draw the current image
-  //tint(3, 236, 252); 
-  image(currentImage, width / 2 - currentImage.width / 2, height / 2 - currentImage.height / 2);
- // noTint(); 
+  
   
   noFill(); 
   for (var x = 0; x <= width; x += spacing) {
@@ -65,6 +62,11 @@ function draw() {
     }
   }
   
+  // Draw the current image
+  //tint(3, 236, 252); 
+  image(currentImage, width / 2 - currentImage.width / 2, height / 2 - currentImage.height / 2);
+ // noTint(); 
+ 
   // Check for beat detection
   if (vol > beatThreshold && millis() - lastBeatTime > 300) { // 300ms gap for beat detection
     console.log('Beat detected');
