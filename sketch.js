@@ -6,6 +6,7 @@ var images = []; // Array to hold images
 var currentImage; // To hold the current image
 var lastBeatTime = 0;
 var beatThreshold = 0.1; // Adjust this threshold for beat detection
+let slider;
 
 function preload() {
   // Load your specific images
@@ -32,6 +33,7 @@ function setup() {
   col3 = color(100, 0, random(255));
   
   currentImage = random(images); // Load a random image at start
+  slider=createSlider(0,1,0.1,0.01);
 }
 
 function startAudio() {
