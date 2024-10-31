@@ -9,23 +9,34 @@ var beatThreshold = 0.1; // Adjust this threshold for beat detection
 
 function preload() {
   // Load your specific images
-  images.push(loadImage('images/frameone.jpg'));
-  images.push(loadImage('images/frametwo.jpg'));
-  images.push(loadImage('images/framethree.jpg'));
-  images.push(loadImage('images/framefour.jpg'));
+  images.push(loadImage('images/1.png'));
+  images.push(loadImage('images/2.png'));
+  images.push(loadImage('images/3.png'));
+  images.push(loadImage('images/4.png'));
+  images.push(loadImage('images/5.png'));
+  images.push(loadImage('images/6.png'));
 }
 
 function setup() {
   createCanvas(900, 600);
   
   mic = new p5.AudioIn();
-  mic.start();
+  
+  // Create a button to start the audio context
+  let startButton = createButton('Start Audio');
+  startButton.position(10, 10);
+  startButton.mousePressed(startAudio);
   
   col1 = color(random(255), 100, 0);
   col2 = color(100, random(255), 0);
   col3 = color(100, 0, random(255));
   
   currentImage = random(images); // Load a random image at start
+}
+
+function startAudio() {
+  mic.start();
+  getAudioContext().resume();
 }
 
 function draw() {
