@@ -18,9 +18,10 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(900, 600);
+  createCanvas(window.innerWidth, window.innerHeight);
   
   mic = new p5.AudioIn();
+  getAudioContext().suspend();
   
   // Create a button to start the audio context
   let startButton = createButton('Start Audio');
@@ -40,7 +41,7 @@ function startAudio() {
 }
 
 function draw() {
-  background(0);
+  background(0, 50);
   
   // Audio level from mic
   var vol = mic.getLevel();
@@ -48,12 +49,14 @@ function draw() {
   circleSize = map(vol, 0, 1, 25, 200);
   
   // Draw the current image
+  //tint(3, 236, 252); 
   image(currentImage, width / 2 - currentImage.width / 2, height / 2 - currentImage.height / 2);
+ // noTint(); 
   
   noFill(); 
   for (var x = 0; x <= width; x += spacing) {
-    for (var y = 0; y <= height; y += spacing) {
-      stroke(col1);
+    for (var y = 0; y <= height + circleSize/2; y += spacing) {
+      stroke(col1); //play with opacity 
       ellipse(x, y, circleSize, circleSize);
       stroke(col2);
       ellipse(x, y, circleSize / 2, circleSize / 2);
