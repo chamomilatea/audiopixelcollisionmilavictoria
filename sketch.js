@@ -44,6 +44,7 @@ function draw() {
   
   // Audio level from mic
   var vol = mic.getLevel();
+  console.log(vol);
   circleSize = map(vol, 0, 1, 25, 200);
   
   // Draw the current image
@@ -63,6 +64,7 @@ function draw() {
   
   // Check for beat detection
   if (vol > beatThreshold && millis() - lastBeatTime > 300) { // 300ms gap for beat detection
+    console.log('Beat detected');
     lastBeatTime = millis();
     currentImage = random(images); // Load a new random image on beat
   }
