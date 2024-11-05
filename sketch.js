@@ -1,7 +1,8 @@
 var mic; // to get audio input from mic
 var spacing = 100;
 var circleSize;
-var col1, col2, col3;
+var colors = []; // Array to hold the range of colors
+var currentColorIndex = 0; // Variable to keep track of the current color index
 var images = []; // Array to hold images
 var zoom2xImages = []; // Array to hold zoom2x images
 var currentImage; // To hold the current image
@@ -13,6 +14,8 @@ var beatThreshold = 0.1; // Adjust this threshold for beat detection
 let slider;
 let ratio = 1.6;
 let globeScale;
+let colorChangeInterval = 2000; // 2 seconds
+let lastColorChangeTime = 0;
 
 function preload() {
   // Load your specific images
@@ -61,9 +64,18 @@ function setup() {
   startButton.position(10, 10);
   startButton.mousePressed(startAudio);
   
-  col1 = color(17, 106, 250);
-  col2 = color(77, 17, 250);
-  col3 = color(29, 250, 180);
+  // Define a range of colors
+  colors = [
+    color(250, 90, 131), // rosy pinky
+    color(250, 86, 67), // salmon
+    color(250, 90, 227), // bubblegum pink
+    color(67, 137, 250), // sky blue
+    color(68, 79, 250), // periwinkle
+    color(67, 189, 250), // light blue
+    color(178, 67, 250), //bright purple
+    color(250, 67, 163), // hot pink
+    color(118, 67, 250) // lavendar purple
+  ];
   
   currentImage = random(images); // Load a random image at start
   overlayImage = random(zoom2xImages); // Load a random overlay image at start
@@ -85,15 +97,21 @@ function draw() {
   var vol = mic.getLevel();
   console.log(vol);
   circleSize = map(vol, 0, 1, 25, 200);
+
+  // Change color every 2 seconds
+  if (millis() - lastColorChangeTime > colorChangeInterval) {
+    currentColorIndex = (currentColorIndex + 1) % colors.length;
+    lastColorChangeTime = millis();
+  }
   
   noFill(); 
   for (var x = 0; x <= width; x += spacing) {
-    for (var y = 0; y <= height + circleSize/2; y += spacing) {
-      stroke(col1);
+    for (var y = 0; y <= height + circleSize / 2; y += spacing) {
+      stroke(colors[currentColorIndex]);
       ellipse(x, y, circleSize, circleSize);
-      stroke(col2);
+      stroke(colors[(currentColorIndex + 1) % colors.length]);
       ellipse(x, y, circleSize / 2, circleSize / 2);
-      stroke(col3);
+      stroke(colors[(currentColorIndex + 2) % colors.length]);
       ellipse(x, y, circleSize + 20, circleSize + 20);
     }
   }
@@ -122,20 +140,5 @@ blendMode(BLEND);
     currentImage = random(images); // Load a new random image on beat
     overlayImage = random(zoom2xImages); // Change the overlay image
     currentTexture = random(textureImages);
-  }
-}
-
-function mousePressed() {
-  currentColorIndex = (currentColorIndex + 1) % 3; // Cycle through 0, 1, 2
-  switch (currentColorIndex) {
-    case 0:
-      col1 = color(115, 129, 250);
-      break;
-    case 1:
-      col2 = color(188, 115, 250);
-      break;
-    case 2:
-      col3 = color(144, 115, 250);
-      break;
   }
 }
