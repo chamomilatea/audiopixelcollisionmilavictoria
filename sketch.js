@@ -147,8 +147,10 @@ function draw() {
 
   tint(255, 255, 255, 80); // Set opacity to 75% (191 out of 255)
   // Draw the current charactertwo image on top
-  image(currentCharacterTwoImage, 0, height / 2 - currentCharacterTwoImage.height / 2);
- 
+  let charactertwoWidth = currentCharacterTwoImage.width * 1.5; // Increase width by 50%
+  let charactertwoHeight = currentCharacterTwoImage.height * 1.5; // Increase height by 50%
+  image(currentCharacterTwoImage, 0, height / 2 - charactertwoHeight / 2, charactertwoWidth, charactertwoHeight);
+   
   // Check for beat detection
   if (vol > beatThreshold && millis() - lastBeatTime > 285) { // 300ms gap for beat detection
     console.log('Beat detected');
