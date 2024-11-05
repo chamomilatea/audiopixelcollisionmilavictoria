@@ -103,6 +103,8 @@ function draw() {
   
   // Audio level from mic
   var vol = mic.getLevel();
+  var sensitivity = slider.value(); // Get the sensitivity value from the slider
+  vol *= sensitivity; // Apply sensitivity to the volume
   console.log(vol);
   circleSize = map(vol, 0, 1, 25, 200);
   
@@ -145,13 +147,13 @@ function draw() {
   noTint();
   blendMode(BLEND);
 
-  tint(255, 255, 255, 70); // Set opacity to 75% (191 out of 255)
-  // Draw the current charactertwo image on top
+  tint(255, 255, 255, 191); // Set opacity to 75% (191 out of 255)
+  // Draw the current charactertwo image on top with increased size
   let charactertwoWidth = currentCharacterTwoImage.width * 1.5; // Increase width by 50%
   let charactertwoHeight = currentCharacterTwoImage.height * 1.5; // Increase height by 50%
   image(currentCharacterTwoImage, 0, height / 2 - charactertwoHeight / 2, charactertwoWidth, charactertwoHeight);
-  noTint();
-   
+  noTint(); // Reset tint
+
   // Check for beat detection
   if (vol > beatThreshold && millis() - lastBeatTime > 285) { // 300ms gap for beat detection
     console.log('Beat detected');
