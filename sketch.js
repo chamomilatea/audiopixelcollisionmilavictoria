@@ -107,11 +107,15 @@ function draw() {
   noFill(); 
   for (var x = 0; x <= width; x += spacing) {
     for (var y = 0; y <= height + circleSize / 2; y += spacing) {
-      stroke(colors[currentColorIndex]);
+      let ratio = map(y, 0, height, 0, 1);
+      let gradientColor = lerpColor(colors[currentColorIndex], colors[(currentColorIndex + 1) % colors.length], ratio);
+      stroke(gradientColor);
       ellipse(x, y, circleSize, circleSize);
-      stroke(colors[(currentColorIndex + 1) % colors.length]);
+      gradientColor = lerpColor(colors[(currentColorIndex + 1) % colors.length], colors[(currentColorIndex + 2) % colors.length], ratio);
+      stroke(gradientColor);
       ellipse(x, y, circleSize / 2, circleSize / 2);
-      stroke(colors[(currentColorIndex + 2) % colors.length]);
+      gradientColor = lerpColor(colors[(currentColorIndex + 2) % colors.length], colors[(currentColorIndex + 3) % colors.length], ratio);
+      stroke(gradientColor);
       ellipse(x, y, circleSize + 20, circleSize + 20);
     }
   }
