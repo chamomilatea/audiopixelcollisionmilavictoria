@@ -4,6 +4,7 @@ var circleSize;
 var colors = []; // Array to hold the range of colors
 var currentColorIndex = 0; // Variable to keep track of the current color index
 var images = []; // Array to hold images
+var charactertwoImages = []; // Array to hold character two images
 var zoom2xImages = []; // Array to hold zoom2x images
 var currentImage; // To hold the current image
 var overlayImage; // To hold the overlay image
@@ -18,20 +19,26 @@ let colorChangeInterval = 2000; // 2 seconds
 let lastColorChangeTime = 0;
 
 function preload() {
-  // Load your specific images
+  // character one from images folder
   images.push(loadImage('images/1.png'));
   images.push(loadImage('images/2.png'));
- // images.push(loadImage('images/3.png'));
+  // images.push(loadImage('images/3.png'));
   images.push(loadImage('images/4.png'));
-  //images.push(loadImage('images/5.png'));
+  // images.push(loadImage('images/5.png'));
   images.push(loadImage('images/6.png'));
-  //images.push(loadImage('images/7.png'));
+  // images.push(loadImage('images/7.png'));
   images.push(loadImage('images/8.png'));
   images.push(loadImage('images/green3.png'));
   images.push(loadImage('images/green5.png'));
   images.push(loadImage('images/green7.png'));
-  //images.push(loadImage('images/green8.png'));
+  // images.push(loadImage('images/green8.png'));
 
+  // character two from charactertwo folder
+  charactertwoImages.push(loadImage('charactertwo/outlinepartygirlone.png'));
+  charactertwoImages.push(loadImage('charactertwo/outlinepartygirltwo.png'));
+  charactertwoImages.push(loadImage('charactertwo/outlinepartygirlthree.png'));
+  charactertwoImages.push(loadImage('charactertwo/outlinepartygirlfour.png'));
+  charactertwoImages.push(loadImage('charactertwo/outlinepartygirlfive.png'));
 
   zoom2xImages.push(loadImage('zoom2x/z2_2.png'));
   zoom2xImages.push(loadImage('zoom2x/z2_4.png'));
@@ -80,6 +87,7 @@ function setup() {
   currentImage = random(images); // Load a random image at start
   overlayImage = random(zoom2xImages); // Load a random overlay image at start
   currentTexture = random(textureImages);
+  currentCharacterTwoImage = random(charactertwoImages); // Load a random charactertwo image at start
 
   slider = createSlider(0,1,0.1,0.01);
   slider.position(100, 10);
@@ -97,7 +105,7 @@ function draw() {
   var vol = mic.getLevel();
   console.log(vol);
   circleSize = map(vol, 0, 1, 25, 200);
-
+  
   // Change color every 2 seconds
   if (millis() - lastColorChangeTime > colorChangeInterval) {
     currentColorIndex = (currentColorIndex + 1) % colors.length;
@@ -123,19 +131,22 @@ function draw() {
   // Draw the current image
   image(currentImage, width / 2 - currentImage.width / 2, height / 2 - currentImage.height / 2);
   
- blendMode(OVERLAY);
- tint(255, 70);
- if (overlayImage) {
-  image(overlayImage, width / 2 - overlayImage.width / 2, height / 2 - overlayImage.height / 2);
-}
+  blendMode(OVERLAY);
+  tint(255, 70);
+  if (overlayImage) {
+    image(overlayImage, width / 2 - overlayImage.width / 2, height / 2 - overlayImage.height / 2);
+  }
 
-blendMode(SUBTRACT);
-tint(255, 255,255, 50);
-if (currentTexture) {
-  image(currentTexture, width / 2 - currentTexture.width / 2, height / 2 - currentTexture.height / 2);
-}
-noTint();
-blendMode(BLEND);
+  blendMode(SUBTRACT);
+  tint(255, 255, 255, 50);
+  if (currentTexture) {
+    image(currentTexture, width / 2 - currentTexture.width / 2, height / 2 - currentTexture.height / 2);
+  }
+  noTint();
+  blendMode(BLEND);
+
+  // Draw the current charactertwo image on top
+  image(currentCharacterTwoImage, width / 2 - currentCharacterTwoImage.width / 2, height / 2 - currentCharacterTwoImage.height / 2);
 
   // Check for beat detection
   if (vol > beatThreshold && millis() - lastBeatTime > 285) { // 300ms gap for beat detection
@@ -144,5 +155,6 @@ blendMode(BLEND);
     currentImage = random(images); // Load a new random image on beat
     overlayImage = random(zoom2xImages); // Change the overlay image
     currentTexture = random(textureImages);
+    currentCharacterTwoImage = random(charactertwoImages); // Change the charactertwo image
   }
 }
