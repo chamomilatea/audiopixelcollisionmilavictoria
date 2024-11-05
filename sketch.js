@@ -145,9 +145,10 @@ function draw() {
   noTint();
   blendMode(BLEND);
 
+  tint(255, 255, 255, 80); // Set opacity to 75% (191 out of 255)
   // Draw the current charactertwo image on top
-  image(currentCharacterTwoImage, width / 2 - currentCharacterTwoImage.width / 2, height / 2 - currentCharacterTwoImage.height / 2);
-
+  image(currentCharacterTwoImage, 0, height / 2 - currentCharacterTwoImage.height / 2);
+ 
   // Check for beat detection
   if (vol > beatThreshold && millis() - lastBeatTime > 285) { // 300ms gap for beat detection
     console.log('Beat detected');
