@@ -61,9 +61,9 @@ function setup() {
   startButton.position(10, 10);
   startButton.mousePressed(startAudio);
   
-  col1 = color(random(255), 100, 0);
-  col2 = color(100, random(255), 0);
-  col3 = color(100, 0, random(255));
+  col1 = color(17, 106, 250);
+  col2 = color(77, 17, 250);
+  col3 = color(29, 250, 180);
   
   currentImage = random(images); // Load a random image at start
   overlayImage = random(zoom2xImages); // Load a random overlay image at start
@@ -126,7 +126,16 @@ blendMode(BLEND);
 }
 
 function mousePressed() {
-  col1 = color(random(255), 100, 0);
-  col2 = color(100, random(255), 0);
-  col3 = color(100, 0, random(255));
+  currentColorIndex = (currentColorIndex + 1) % 3; // Cycle through 0, 1, 2
+  switch (currentColorIndex) {
+    case 0:
+      col1 = color(115, 129, 250);
+      break;
+    case 1:
+      col2 = color(188, 115, 250);
+      break;
+    case 2:
+      col3 = color(144, 115, 250);
+      break;
+  }
 }
