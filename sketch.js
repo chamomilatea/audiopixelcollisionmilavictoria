@@ -116,17 +116,17 @@ function draw() {
   }
   
   // Draw the current charactertwo image with increased size and vertical flip
-  let charactertwoX = 100; // Example x-coordinate
-  let charactertwoY = 500; // Example y-coordinate
+  let charactertwoX = -100; // Example x-coordinate
+  let charactertwoY = -900; // Example y-coordinate
   tint(255, 255, 255, 100); // Set opacity to 50% (128 out of 255)
-  let charactertwoWidth = currentCharacterTwoImage.width * 1.55; // Increase width by 55%
-  let charactertwoHeight = currentCharacterTwoImage.height * 1.55; // Increase height by 55%
+  let charactertwoWidth = currentCharacterTwoImage.width * 1.5; // Increase width by 55%
+  let charactertwoHeight = currentCharacterTwoImage.height * 1.5; // Increase height by 55%
 
   // Apply vertical flip
   push(); // Save the current transformation matrix
-  translate(charactertwoX, charactertwoY + charactertwoHeight); // Move to the position where the image should be drawn
-  scale(1, -1); // Flip the image vertically
-  image(currentCharacterTwoImage, 0, 0, charactertwoWidth, charactertwoHeight); // Draw the image
+  translate(charactertwoX, charactertwoY); // Move to the position where the image should be drawn
+  scale(1,-1); // Flip the image vertically
+  image(currentCharacterTwoImage, 0, -charactertwoWidth, charactertwoHeight,  charactertwoHeight); // Draw the image
   pop(); // Restore the original transformation matrix
   noTint(); // Reset tint
   
