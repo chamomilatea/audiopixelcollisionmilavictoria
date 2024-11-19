@@ -116,7 +116,7 @@ function draw() {
   }
   
   // Draw the current charactertwo image on top with increased size
-  let charactertwoX = -200; // Example x-coordinate
+  let charactertwoX = -500; // Example x-coordinate
   let charactertwoY = 100; // Example y-coordinate
   tint(230, 20, 150, 60); // Set opacity to 50% (128 out of 255)
   let charactertwoWidth = currentCharacterTwoImage.width * 1.55; // Increase width by 55%
