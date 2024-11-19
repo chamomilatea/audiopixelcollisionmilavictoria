@@ -71,6 +71,13 @@ function setup() {
   startButton.position(10, 10);
   startButton.mousePressed(startAudio);
   
+  // Apply inline styles to the button for tint and opacity
+  startButton.style('background-color', 'rgba(0, 17, 255, 0.3)'); // Blue tint with 30% opacity
+  startButton.style('color', 'white'); // Set text color to white
+  startButton.style('border', 'none'); // Remove border
+  startButton.style('padding', '10px 20px'); // Add padding
+  startButton.style('border-radius', '5px'); // Add border radius for rounded corners
+
   // Define a range of colors
   colors = [
     color(250, 90, 131), // rosy pinky
@@ -89,9 +96,13 @@ function setup() {
   currentTexture = random(textureImages);
   currentCharacterTwoImage = random(charactertwoImages); // Load a random charactertwo image at start
 
-  slider = createSlider(0,1,0.1,0.01);
+  // Create a sensitivity slider
+  slider = createSlider(0, 1, 0.1, 0.01);
   slider.position(100, 10);
-
+  
+  // Apply inline styles to the slider for tint and opacity
+  slider.style('background-color', 'rgba(255, 0, 0, 0.5)'); // Red tint with 50% opacity
+  slider.style('opacity', '0.7'); // Set the opacity to 70%
 }
 
 function startAudio() {
