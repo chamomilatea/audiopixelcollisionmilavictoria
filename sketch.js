@@ -91,6 +91,7 @@ function setup() {
 
   slider = createSlider(0,1,0.1,0.01);
   slider.position(100, 10);
+
 }
 
 function startAudio() {
