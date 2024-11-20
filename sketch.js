@@ -15,7 +15,7 @@ let currentTexture;
 let lastBeatTime = 0;
 let beatThreshold = 0.05; // Adjust this threshold for beat detection
 let slider;
-let ratio = 1.6;
+let ratioNum = 1.6;
 let globeScale;
 let colorChangeInterval = 2000; // 2 seconds
 let lastColorChangeTime = 0;
@@ -68,8 +68,9 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(window.innerWidth, window.innerWidth / ratio);
+  createCanvas(window.innerWidth, window.innerWidth / ratioNum);
   globeScale = min(width, height);
+  imageMode(CENTER);
   
   mic = new p5.AudioIn();
   getAudioContext().suspend();
@@ -106,7 +107,7 @@ function setup() {
   currentCharacterTwoImage = random(charactertwoImages); // Load a random charactertwo image at start
 
   // Create a sensitivity slider
-  slider = createSlider(0, 1, beatThreshold, 0.01); 
+  slider = createSlider(0, 0.1, beatThreshold, 0.001); 
   slider.position(120, 15);
   
   slider.addClass('slider');
@@ -136,35 +137,39 @@ function draw() {
   noFill(); 
   for (let x = 0; x <= width; x += spacing) {
     for (let y = 0; y <= height + circleSize / 2; y += spacing) {
-      let ratio = map(y, 0, height, 0, 1);
-      let gradientColor = lerpColor(colors[currentColorIndex], colors[(currentColorIndex + 1) % colors.length], ratio);
+      ratio2 = map(y, 0, height, 0, 1);
+      let gradientColor = lerpColor(colors[currentColorIndex], colors[(currentColorIndex + 1) % colors.length], ratio2);
       stroke(gradientColor);
       ellipse(x, y, circleSize, circleSize);
-      gradientColor = lerpColor(colors[(currentColorIndex + 1) % colors.length], colors[(currentColorIndex + 2) % colors.length], ratio);
+      gradientColor = lerpColor(colors[(currentColorIndex + 1) % colors.length], colors[(currentColorIndex + 2) % colors.length], ratio2);
       stroke(gradientColor);
       ellipse(x, y, circleSize / 2, circleSize / 2);
-      gradientColor = lerpColor(colors[(currentColorIndex + 2) % colors.length], colors[(currentColorIndex + 3) % colors.length], ratio);
+      gradientColor = lerpColor(colors[(currentColorIndex + 2) % colors.length], colors[(currentColorIndex + 3) % colors.length], ratio2);
       stroke(gradientColor);
       ellipse(x, y, circleSize + 20, circleSize + 20);
     }
   }
   
    // Draw the current charactertwo image on top with increased size
-   let charactertwoX = -500; // Example x-coordinate
-   let charactertwoY = 100; // Example y-coordinate
+   let charactertwoX = width*0.35; // Example x-coordinate
+   let charactertwoY = height/2; // Example y-coordinate
+   let charactertwoWidth = globeScale; // Increase width by 55%
+   let charactertwoHeight = globeScale; // Increase height by 55%
    tint(230, 20, 150); // Set opacity to 50% (128 out of 255)
-   let charactertwoWidth = currentCharacterTwoImage.width * 1.55; // Increase width by 55%
-   let charactertwoHeight = currentCharacterTwoImage.height * 1.55; // Increase height by 55%
    image(currentCharacterTwoImage, charactertwoX, charactertwoY, charactertwoWidth, charactertwoHeight);
    noTint(); // Reset tint
    
   // Draw the current image
-  image(currentImage, width / 2 - currentImage.width / 2, height / 2 - currentImage.height / 2);
+  let currentImageWidth = globeScale;
+  let currentImageHeight = globeScale;
+  let currentImageX = width*0.65;
+  let currentImageY = height/2;
+  image(currentImage, currentImageX, currentImageY, currentImageWidth, currentImageHeight);
   
   blendMode(OVERLAY);
   tint(255, 70);
   if (overlayImage) {
-    image(overlayImage, width / 2 - overlayImage.width / 2, height / 2 - overlayImage.height / 2);
+    image(overlayImage, currentImageX, currentImageY, currentImageWidth, currentImageHeight);
   }
 
   blendMode(OVERLAY);
@@ -172,12 +177,8 @@ function draw() {
   noTint(); // Reset tint
   //tint(255, 70);
   if (c2Overlay) {
-    let charTwoOverlayX = -500; // Example x-coordinate
-  let charTwoOverlayY = 100; // Example y-coordinate
   tint(3, 230, 250, 50); 
-  let charTwoOverlayWidth = currentCharacterTwoImage.width * 1.55; // Increase width by 55%
-  let charTwoOverlayHeight = currentCharacterTwoImage.height * 1.55; // Increase height by 55%
-  image(c2Overlay, charTwoOverlayX, charTwoOverlayY, charTwoOverlayWidth, charTwoOverlayHeight);
+  image(c2Overlay, charactertwoX, charactertwoY, charactertwoWidth, charactertwoHeight);
     //image(c2Overlay, width / 2 - c2Overlay.width / 2, height / 2 - c2Overlay.height / 2);
   }
   noTint();
@@ -185,7 +186,7 @@ function draw() {
   //blendMode(SUBTRACT); //CAN'T USE THIS
   tint(255, 255, 255, 50);
   if (currentTexture) {
-    image(currentTexture, width / 2 - currentTexture.width / 2, height / 2 - currentTexture.height / 2);
+    image(currentTexture, width/2, height/2, width, height);
   }
   noTint();
   blendMode(BLEND);

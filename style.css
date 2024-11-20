@@ -11,8 +11,8 @@ canvas {
 .slider {
   -webkit-appearance: none;
   appearance: none;
-  width: 30; 
-  height: 15px;
+  width: 20vw; 
+  height: 1vh;
   background-color: #686363; 
   opacity: 0.6; 
   border-radius: 10px; 
@@ -21,8 +21,8 @@ canvas {
 .slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 15px; 
-  height: 15px;
+  width: 1vw; 
+  height: 1vh;
   border-radius: 50%;
   background: #3704c5; 
   cursor: pointer; 
