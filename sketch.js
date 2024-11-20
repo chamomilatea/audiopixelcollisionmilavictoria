@@ -1,5 +1,5 @@
 let mic; // to get audio input from mic
-let spacing = 100;
+let spacing;
 let circleSize;
 let colors = []; // Array to hold the range of colors
 let currentColorIndex = 0; // letiable to keep track of the current color index
@@ -19,6 +19,8 @@ let ratioNum = 1.6;
 let globeScale;
 let colorChangeInterval = 2000; // 2 seconds
 let lastColorChangeTime = 0;
+let volSlider; 
+let volSense = 0.5;
 
 function preload() {
   // character one from images folder
@@ -77,15 +79,17 @@ function setup() {
   
   // Create a button to start the audio context
   let startButton = createButton('Start Audio');
-  startButton.position(10, 10);
+  startButton.position(width*0.01, 400);
   startButton.mousePressed(startAudio);
   
   // Apply inline styles to the button for tint and opacity
-  startButton.style('background-color', 'rgba(0, 17, 255, 0.3)'); // Blue tint with 30% opacity
+  startButton.style('background-color', 'rgba(0, 17, 255, 0.5)'); // Blue tint with 30% opacity
   startButton.style('color', 'white'); // Set text color to white
   startButton.style('border', 'none'); // Remove border
   startButton.style('padding', '10px 20px'); // Add padding
-  startButton.style('border-radius', '5px'); // Add border radius for rounded corners
+  startButton.style('width', '3vw'); // Add padding
+  startButton.style('height', '3vh'); // Add padding
+  startButton.style('border-radius', '0.5vh'); // Add border radius for rounded corners
 
   // Define a range of colors
   colors = [
@@ -106,6 +110,10 @@ function setup() {
   currentTexture = random(textureImages);
   currentCharacterTwoImage = random(charactertwoImages); // Load a random charactertwo image at start
 
+  volSlider = createSlider(0, 1, volSense, 0.1);
+  volSlider.addClass('volSlider');
+  volSlider.position(120, 200);
+
   // Create a sensitivity slider
   slider = createSlider(0, 0.1, beatThreshold, 0.001); 
   slider.position(120, 15);
@@ -123,18 +131,27 @@ function draw() {
   
   // Audio level from mic
   let vol = mic.getLevel();
+  volSense = volSlider.value();
+  vol = vol * volSense; 
   let beatThreshold = slider.value(); // Get the sensitivity value from the slider
   //vol *= sensitivity; // Adjust the volume based on the sensitivity
-  
-  circleSize = map(vol, 0, 1, 25, 200);
+  let minSize = globeScale*0.05;
+  let maxSize = globeScale*0.2;
+  circleSize = map(vol, 0, 1, minSize, maxSize);
   
   // Change color every 2 seconds
   if (millis() - lastColorChangeTime > colorChangeInterval) {
     currentColorIndex = (currentColorIndex + 1) % colors.length;
     lastColorChangeTime = millis();
+    
   }
+
+  spacing = circleSize;
+  let halfCirc = circleSize / 2;  
+  let offset = circleSize*0.2;
   
   noFill(); 
+  
   for (let x = 0; x <= width; x += spacing) {
     for (let y = 0; y <= height + circleSize / 2; y += spacing) {
       ratio2 = map(y, 0, height, 0, 1);
@@ -143,10 +160,10 @@ function draw() {
       ellipse(x, y, circleSize, circleSize);
       gradientColor = lerpColor(colors[(currentColorIndex + 1) % colors.length], colors[(currentColorIndex + 2) % colors.length], ratio2);
       stroke(gradientColor);
-      ellipse(x, y, circleSize / 2, circleSize / 2);
+      ellipse(x, y, halfCirc, halfCirc);
       gradientColor = lerpColor(colors[(currentColorIndex + 2) % colors.length], colors[(currentColorIndex + 3) % colors.length], ratio2);
       stroke(gradientColor);
-      ellipse(x, y, circleSize + 20, circleSize + 20);
+      ellipse(x, y, circleSize + offset, circleSize + offset);
     }
   }
   
@@ -160,8 +177,8 @@ function draw() {
    noTint(); // Reset tint
    
   // Draw the current image
-  let currentImageWidth = globeScale;
-  let currentImageHeight = globeScale;
+  let currentImageWidth = globeScale*1.2;
+  let currentImageHeight = globeScale*1.2;
   let currentImageX = width*0.65;
   let currentImageY = height/2;
   image(currentImage, currentImageX, currentImageY, currentImageWidth, currentImageHeight);
