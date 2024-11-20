@@ -1,8 +1,29 @@
 html, body {
-    margin: 0;
-    padding: 0;
-  }
-  canvas {
-    display: block;
-  }
-  
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+}
+
+/* Style for the slider */
+.slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 30; 
+  height: 15px;
+  background-color: #686363; 
+  opacity: 0.6; 
+  border-radius: 10px; 
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px; 
+  height: 15px;
+  border-radius: 50%;
+  background: #3704c5; 
+  cursor: pointer; 
+}
