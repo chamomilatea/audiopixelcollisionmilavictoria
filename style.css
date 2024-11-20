@@ -7,12 +7,27 @@ canvas {
   display: block;
 }
 
+.startButton {
+  appearance: none; 
+  position: absolute; /* Add this line */
+  top: 10vh; /* Position the button */
+  left: 1vw; /* Position the button */
+  background-color: rgba(0, 17, 255, 0.5); /* Blue tint with 50% opacity */
+  color: white; /* Set text color to white */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Add padding */
+  border-radius: 0.5vh; /* Add border radius for rounded corners */
+}
+
 /* Style for the slider */
 .slider {
   -webkit-appearance: none;
   appearance: none;
-  width: 20vw; 
-  height: 1vh;
+  position: absolute; /* Add this line */
+  top:2vh; /* Position the slider */
+  left: 1vw; /* Position the slider */
+  width: 30%; /* Full-width */
+  height: 1vh; /* Slider thickness */
   background-color: #686363; 
   opacity: 0.6; 
   border-radius: 1vh; 
@@ -31,9 +46,12 @@ canvas {
 /* Style for the slider */
 .volSlider {
   -webkit-appearance: none;
+  position: absolute; /* Add this line */
   appearance: none;
-  width: 20vw; 
-  height: 1vh;
+  top:5vh; /* Position the slider */
+  left: 1vw; /* Position the slider */
+  width: 30%; /* Full-width */
+  height: 1vh; /* Slider thickness */
   background-color: #686363; 
   opacity: 0.6; 
   border-radius: 1vh; 

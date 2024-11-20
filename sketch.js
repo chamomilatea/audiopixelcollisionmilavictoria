@@ -21,6 +21,7 @@ let colorChangeInterval = 2000; // 2 seconds
 let lastColorChangeTime = 0;
 let volSlider; 
 let volSense = 0.5;
+let currentCharacterTwoImage;
 
 function preload() {
   // character one from images folder
@@ -79,17 +80,9 @@ function setup() {
   
   // Create a button to start the audio context
   let startButton = createButton('Start Audio');
-  startButton.position(width*0.01, 400);
   startButton.mousePressed(startAudio);
-  
-  // Apply inline styles to the button for tint and opacity
-  startButton.style('background-color', 'rgba(0, 17, 255, 0.5)'); // Blue tint with 30% opacity
-  startButton.style('color', 'white'); // Set text color to white
-  startButton.style('border', 'none'); // Remove border
-  startButton.style('padding', '10px 20px'); // Add padding
-  startButton.style('width', '3vw'); // Add padding
-  startButton.style('height', '3vh'); // Add padding
-  startButton.style('border-radius', '0.5vh'); // Add border radius for rounded corners
+  startButton.addClass('startButton'); // Add a class to the button
+
 
   // Define a range of colors
   colors = [
@@ -112,12 +105,9 @@ function setup() {
 
   volSlider = createSlider(0, 1, volSense, 0.1);
   volSlider.addClass('volSlider');
-  volSlider.position(120, 200);
 
   // Create a sensitivity slider
   slider = createSlider(0, 0.1, beatThreshold, 0.001); 
-  slider.position(120, 15);
-  
   slider.addClass('slider');
 }
 
