@@ -138,21 +138,32 @@ function draw() {
 
   spacing = circleSize;
   let halfCirc = circleSize / 2;  
-  let offset = circleSize*0.2;
+  let offset = circleSize * 0.2;
+  let strokeScale = globeScale * 0.001; // Scale factor for stroke weight
   
   noFill(); 
   
   for (let x = 0; x <= width; x += spacing) {
     for (let y = 0; y <= height + circleSize / 2; y += spacing) {
-      ratio2 = map(y, 0, height, 0, 1);
+      let ratio2 = map(y, 0, height, 0, 1);
+      let alphaValue = 70; // Set the desired alpha value (0-255)
+  
       let gradientColor = lerpColor(colors[currentColorIndex], colors[(currentColorIndex + 1) % colors.length], ratio2);
+      gradientColor.setAlpha(alphaValue);
       stroke(gradientColor);
+      strokeWeight(strokeScale); // Set stroke weight based on scale factor
       ellipse(x, y, circleSize, circleSize);
+  
       gradientColor = lerpColor(colors[(currentColorIndex + 1) % colors.length], colors[(currentColorIndex + 2) % colors.length], ratio2);
+      gradientColor.setAlpha(alphaValue);
       stroke(gradientColor);
+      strokeWeight(strokeScale); // Set stroke weight based on scale factor
       ellipse(x, y, halfCirc, halfCirc);
+  
       gradientColor = lerpColor(colors[(currentColorIndex + 2) % colors.length], colors[(currentColorIndex + 3) % colors.length], ratio2);
+      gradientColor.setAlpha(alphaValue);
       stroke(gradientColor);
+      strokeWeight(strokeScale); // Set stroke weight based on scale factor
       ellipse(x, y, circleSize + offset, circleSize + offset);
     }
   }
