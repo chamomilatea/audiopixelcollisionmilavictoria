@@ -6,12 +6,14 @@ var currentColorIndex = 0; // Variable to keep track of the current color index
 var images = []; // Array to hold images
 var charactertwoImages = []; // Array to hold character two images
 var zoom2xImages = []; // Array to hold zoom2x images
+var c2OverlayImages = [];
 var currentImage; // To hold the current image
 var overlayImage; // To hold the overlay image
+var c2Overlay;
 var textureImages = [];
 var currentTexture;
 var lastBeatTime = 0;
-var beatThreshold = 0.1; // Adjust this threshold for beat detection
+var beatThreshold = 0.05; // Adjust this threshold for beat detection
 let slider;
 let ratio = 1.6;
 let globeScale;
@@ -44,6 +46,12 @@ function preload() {
   zoom2xImages.push(loadImage('zoom2x/z2_4.png'));
   zoom2xImages.push(loadImage('zoom2x/z2_6.png'));
   zoom2xImages.push(loadImage('zoom2x/z2_8.png'));
+
+  c2OverlayImages.push(loadImage('charTwoOverlay/c2_1.png'));
+  c2OverlayImages.push(loadImage('charTwoOverlay/c2_2.png'));
+  c2OverlayImages.push(loadImage('charTwoOverlay/c2_3.png'));
+  c2OverlayImages.push(loadImage('charTwoOverlay/c2_4.png'));
+  c2OverlayImages.push(loadImage('charTwoOverlay/c2_5.png'));
 
   images.push(loadImage('zoom3x/z3_1.png'));
   images.push(loadImage('zoom3x/z3_3.png'));
@@ -93,6 +101,7 @@ function setup() {
   
   currentImage = random(images); // Load a random image at start
   overlayImage = random(zoom2xImages); // Load a random overlay image at start
+  c2Overlay = random(c2OverlayImages);
   currentTexture = random(textureImages);
   currentCharacterTwoImage = random(charactertwoImages); // Load a random charactertwo image at start
 
@@ -100,9 +109,6 @@ function setup() {
   slider = createSlider(0, 1, 0.1, 0.01);
   slider.position(120, 15);
   
-  // Apply inline styles to the slider for tint and opacity
-  //slider.style('background-color', 'rgba(50, 50, 50, 1)'); // Red tint with 50% opacity
-  //slider.style('opacity', '0.7'); // Set the opacity to 70%
   slider.addClass('slider');
 }
 
@@ -128,15 +134,6 @@ function draw() {
     lastColorChangeTime = millis();
   }
   
-  // Draw the current charactertwo image on top with increased size
-  let charactertwoX = -500; // Example x-coordinate
-  let charactertwoY = 100; // Example y-coordinate
-  tint(230, 20, 150, 60); // Set opacity to 50% (128 out of 255)
-  let charactertwoWidth = currentCharacterTwoImage.width * 1.55; // Increase width by 55%
-  let charactertwoHeight = currentCharacterTwoImage.height * 1.55; // Increase height by 55%
-  image(currentCharacterTwoImage, charactertwoX, charactertwoY, charactertwoWidth, charactertwoHeight);
-  noTint(); // Reset tint
-  
   noFill(); 
   for (var x = 0; x <= width; x += spacing) {
     for (var y = 0; y <= height + circleSize / 2; y += spacing) {
@@ -153,6 +150,15 @@ function draw() {
     }
   }
   
+   // Draw the current charactertwo image on top with increased size
+   let charactertwoX = -500; // Example x-coordinate
+   let charactertwoY = 100; // Example y-coordinate
+   tint(230, 20, 150); // Set opacity to 50% (128 out of 255)
+   let charactertwoWidth = currentCharacterTwoImage.width * 1.55; // Increase width by 55%
+   let charactertwoHeight = currentCharacterTwoImage.height * 1.55; // Increase height by 55%
+   image(currentCharacterTwoImage, charactertwoX, charactertwoY, charactertwoWidth, charactertwoHeight);
+   noTint(); // Reset tint
+   
   // Draw the current image
   image(currentImage, width / 2 - currentImage.width / 2, height / 2 - currentImage.height / 2);
   
@@ -161,6 +167,21 @@ function draw() {
   if (overlayImage) {
     image(overlayImage, width / 2 - overlayImage.width / 2, height / 2 - overlayImage.height / 2);
   }
+
+  blendMode(OVERLAY);
+  
+  noTint(); // Reset tint
+  //tint(255, 70);
+  if (c2Overlay) {
+    let charTwoOverlayX = -500; // Example x-coordinate
+  let charTwoOverlayY = 100; // Example y-coordinate
+  tint(3, 230, 250, 50); 
+  let charTwoOverlayWidth = currentCharacterTwoImage.width * 1.55; // Increase width by 55%
+  let charTwoOverlayHeight = currentCharacterTwoImage.height * 1.55; // Increase height by 55%
+  image(c2Overlay, charTwoOverlayX, charTwoOverlayY, charTwoOverlayWidth, charTwoOverlayHeight);
+    //image(c2Overlay, width / 2 - c2Overlay.width / 2, height / 2 - c2Overlay.height / 2);
+  }
+  noTint();
 
   blendMode(SUBTRACT);
   tint(255, 255, 255, 50);
@@ -176,6 +197,7 @@ function draw() {
     lastBeatTime = millis(); 
     currentImage = random(images); // Load a new random image on beat
     overlayImage = random(zoom2xImages); // Change the overlay image
+    c2Overlay = random(c2OverlayImages);
     currentTexture = random(textureImages);
     currentCharacterTwoImage = random(charactertwoImages); // Change the charactertwo image
   }
