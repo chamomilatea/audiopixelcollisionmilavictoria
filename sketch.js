@@ -98,11 +98,12 @@ function setup() {
 
   // Create a sensitivity slider
   slider = createSlider(0, 1, 0.1, 0.01);
-  slider.position(100, 10);
+  slider.position(120, 15);
   
   // Apply inline styles to the slider for tint and opacity
-  slider.style('background-color', 'rgba(255, 0, 0, 0.5)'); // Red tint with 50% opacity
-  slider.style('opacity', '0.7'); // Set the opacity to 70%
+  //slider.style('background-color', 'rgba(50, 50, 50, 1)'); // Red tint with 50% opacity
+  //slider.style('opacity', '0.7'); // Set the opacity to 70%
+  slider.addClass('slider');
 }
 
 function startAudio() {
