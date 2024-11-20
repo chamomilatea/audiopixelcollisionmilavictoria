@@ -1,19 +1,19 @@
-var mic; // to get audio input from mic
-var spacing = 100;
-var circleSize;
-var colors = []; // Array to hold the range of colors
-var currentColorIndex = 0; // Variable to keep track of the current color index
-var images = []; // Array to hold images
-var charactertwoImages = []; // Array to hold character two images
-var zoom2xImages = []; // Array to hold zoom2x images
-var c2OverlayImages = [];
-var currentImage; // To hold the current image
-var overlayImage; // To hold the overlay image
-var c2Overlay;
-var textureImages = [];
-var currentTexture;
-var lastBeatTime = 0;
-var beatThreshold = 0.05; // Adjust this threshold for beat detection
+let mic; // to get audio input from mic
+let spacing = 100;
+let circleSize;
+let colors = []; // Array to hold the range of colors
+let currentColorIndex = 0; // letiable to keep track of the current color index
+let images = []; // Array to hold images
+let charactertwoImages = []; // Array to hold character two images
+let zoom2xImages = []; // Array to hold zoom2x images
+let c2OverlayImages = [];
+let currentImage; // To hold the current image
+let overlayImage; // To hold the overlay image
+let c2Overlay;
+let textureImages = [];
+let currentTexture;
+let lastBeatTime = 0;
+let beatThreshold = 0.05; // Adjust this threshold for beat detection
 let slider;
 let ratio = 1.6;
 let globeScale;
@@ -106,7 +106,7 @@ function setup() {
   currentCharacterTwoImage = random(charactertwoImages); // Load a random charactertwo image at start
 
   // Create a sensitivity slider
-  slider = createSlider(0, 1, 0.1, 0.01);
+  slider = createSlider(0, 1, beatThreshold, 0.01); 
   slider.position(120, 15);
   
   slider.addClass('slider');
@@ -121,11 +121,10 @@ function draw() {
   background(0, 30);
   
   // Audio level from mic
-  var vol = mic.getLevel();
-  var sensitivity = slider.value(); // Get the sensitivity value from the slider
-  vol *= sensitivity; // Adjust the volume based on the sensitivity
+  let vol = mic.getLevel();
+  let beatThreshold = slider.value(); // Get the sensitivity value from the slider
+  //vol *= sensitivity; // Adjust the volume based on the sensitivity
   
-  console.log(vol);
   circleSize = map(vol, 0, 1, 25, 200);
   
   // Change color every 2 seconds
@@ -135,8 +134,8 @@ function draw() {
   }
   
   noFill(); 
-  for (var x = 0; x <= width; x += spacing) {
-    for (var y = 0; y <= height + circleSize / 2; y += spacing) {
+  for (let x = 0; x <= width; x += spacing) {
+    for (let y = 0; y <= height + circleSize / 2; y += spacing) {
       let ratio = map(y, 0, height, 0, 1);
       let gradientColor = lerpColor(colors[currentColorIndex], colors[(currentColorIndex + 1) % colors.length], ratio);
       stroke(gradientColor);
@@ -183,13 +182,16 @@ function draw() {
   }
   noTint();
 
-  blendMode(SUBTRACT);
+  //blendMode(SUBTRACT); //CAN'T USE THIS
   tint(255, 255, 255, 50);
   if (currentTexture) {
     image(currentTexture, width / 2 - currentTexture.width / 2, height / 2 - currentTexture.height / 2);
   }
   noTint();
   blendMode(BLEND);
+
+  console.log(beatThreshold);
+  //console.log(vol);
 
   // Check for beat detection
   if (vol > beatThreshold && millis() - lastBeatTime > 285) { // 300ms gap for beat detection
